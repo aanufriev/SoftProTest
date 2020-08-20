@@ -9,7 +9,9 @@ const (
 	postgres = "postgres"
 )
 
-type StorageInterface interface{}
+type StorageInterface interface {
+	Ping() error
+}
 
 type PostgresStorage struct {
 	db *sql.DB

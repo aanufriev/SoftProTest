@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/aanufriev/SoftProTest/storage"
+	_ "github.com/lib/pq"
 )
 
 const (
