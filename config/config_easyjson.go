@@ -17,7 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig(in *jlexer.Lexer, out *Provider) {
+func easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig(in *jlexer.Lexer, out *provider) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -94,7 +94,7 @@ func easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig(in *jlexer.Lexer,
 		in.Consumed()
 	}
 }
-func easyjson6615c02eEncodeGithubComAanufrievSoftProTestConfig(out *jwriter.Writer, in Provider) {
+func easyjson6615c02eEncodeGithubComAanufrievSoftProTestConfig(out *jwriter.Writer, in provider) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -139,26 +139,26 @@ func easyjson6615c02eEncodeGithubComAanufrievSoftProTestConfig(out *jwriter.Writ
 }
 
 // MarshalJSON supports json.Marshaler interface
-func (v Provider) MarshalJSON() ([]byte, error) {
+func (v provider) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
 	easyjson6615c02eEncodeGithubComAanufrievSoftProTestConfig(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
-func (v Provider) MarshalEasyJSON(w *jwriter.Writer) {
+func (v provider) MarshalEasyJSON(w *jwriter.Writer) {
 	easyjson6615c02eEncodeGithubComAanufrievSoftProTestConfig(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
-func (v *Provider) UnmarshalJSON(data []byte) error {
+func (v *provider) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
 	easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *Provider) UnmarshalEasyJSON(l *jlexer.Lexer) {
+func (v *provider) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig(l, v)
 }
 func easyjson6615c02eDecodeGithubComAanufrievSoftProTestConfig1(in *jlexer.Lexer, out *Config) {

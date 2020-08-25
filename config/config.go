@@ -1,8 +1,10 @@
 package config
 
+// Config is a struct into which
+// the config.json will be parsed
 //easyjson:json
 type Config struct {
-	LinesProvider Provider `json:"linesProvider"`
+	LinesProvider provider `json:"linesProvider"`
 	HTTPPort      string   `json:"httpPort"`
 	GrpcPort      string   `json:"grpcPort"`
 	DBDataSource  string   `json:"database"`
@@ -10,7 +12,7 @@ type Config struct {
 }
 
 //easyjson:json
-type Provider struct {
+type provider struct {
 	URL       string   `json:"url"`
 	Sports    []string `json:"sports"`
 	Intervals []int    `json:"intervals"`
