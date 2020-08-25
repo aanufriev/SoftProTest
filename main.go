@@ -1,57 +1,68 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
+	"io/ioutil"
 
+	"github.com/aanufriev/SoftProTest/config"
+	grpcserver "github.com/aanufriev/SoftProTest/grpcServer"
+	httpserver "github.com/aanufriev/SoftProTest/httpServer"
 	"github.com/aanufriev/SoftProTest/storage"
+	"github.com/aanufriev/SoftProTest/workersPool"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 )
 
-const (
-	lineProvider = "http://localhost:8000/api/v1/lines/"
-)
-
-type Handler struct {
-	storage storage.StorageInterface
-}
-
-func (h Handler) checkReady(w http.ResponseWriter, r *http.Request) {
-	sports := []string{"baseball", "football", "soccer"}
-
-	for _, sport := range sports {
-		_, err := http.Get(lineProvider + sport)
-		if err != nil {
-			// вывести ошибку
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+func setLogrusLevel(level string) {
+	levels := map[string]logrus.Level{
+		"fatal": logrus.FatalLevel,
+		"debug": logrus.DebugLevel,
+		"panic": logrus.PanicLevel,
+		"info":  logrus.InfoLevel,
+		"error": logrus.ErrorLevel,
+		"trace": logrus.TraceLevel,
+		"warn":  logrus.WarnLevel,
 	}
 
-	err := h.storage.Ping()
-	if err != nil {
-		// вывести ошибку
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+	logrusLevel, ok := levels[level]
+	if !ok {
+		logrusLevel = logrus.DebugLevel
 	}
 
-	fmt.Println("service is ready")
+	logrus.SetLevel(logrusLevel)
 }
 
 func main() {
-	storage := &storage.PostgresStorage{}
-	err := storage.Open("user=testuser password=test_password dbname=softpro sslmode=disable")
+	config := config.Config{}
+	configData, err := ioutil.ReadFile("config/config.json")
 	if err != nil {
-		log.Fatal("can't open database connection: ", err)
+		logrus.Fatal("can't read config: ", err)
+	}
+	config.UnmarshalJSON(configData)
+
+	setLogrusLevel(config.LogLevel)
+
+	logrus.WithFields(logrus.Fields{
+		"config": config,
+	}).Info("Got config")
+
+	storage := &storage.PostgresStorage{}
+	err = storage.Open(config.DBDataSource)
+	if err != nil {
+		logrus.Fatal("can't open database connection: ", err)
 	}
 
-	handler := &Handler{
-		storage,
-	}
+	sports := config.LinesProvider.Sports
+	storage.InitDatabase(sports)
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/ready", handler.checkReady)
+	intervals := config.LinesProvider.Intervals
+	linesProviderURL := config.LinesProvider.URL
 
-	http.ListenAndServe(":9000", mux)
+	go func() {
+		pool := workersPool.NewWorkersPool(1, sports, intervals, storage)
+		pool.Start(linesProviderURL)
+	}()
+
+	go httpserver.StartHTTPServer(config.HTTPPort, storage, sports, linesProviderURL)
+
+	grpcserver.StartSubServer(config.GrpcPort, storage)
 }
