@@ -1,1 +1,4 @@
 # SoftProTest
+# Запустить:
+
+make run
