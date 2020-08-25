@@ -44,7 +44,7 @@ func TestGRPC(t *testing.T) {
 
 		server := grpc.NewServer()
 
-		RegisterSubscribeOnSportsLinesServer(server, NewServer(fs))
+		RegisterSubscribeOnSportsLinesServer(server, newServer(fs))
 
 		server.Serve(lis)
 	}()
