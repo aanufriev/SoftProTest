@@ -1,3 +1,8 @@
+TARGER=SoftPro
+
+build:
+	go build -o build/${TARGER}
+
 run:
 	docker-compose build
 	docker-compose up
