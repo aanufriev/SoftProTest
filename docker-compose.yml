@@ -1,0 +1,35 @@
+version: "3"
+services:
+  database:
+    image:
+       postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+        POSTGRES_DB: softpro
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_password
+
+  lines-provider:
+    container_name: linesprovider
+    image: antonboom/lines-provider
+    ports:
+      - "8000:8000"
+
+  kiddy_lines_processor:
+    build: .
+    command:
+        go run .
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    links:
+        - database
+        - lines-provider
+    depends_on:
+        - database
+        - lines-provider
+volumes:
+  database-data:
