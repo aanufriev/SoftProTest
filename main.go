@@ -7,7 +7,7 @@ import (
 	grpcserver "github.com/aanufriev/SoftProTest/grpcServer"
 	httpserver "github.com/aanufriev/SoftProTest/httpServer"
 	"github.com/aanufriev/SoftProTest/storage"
-	"github.com/aanufriev/SoftProTest/workersPool"
+	workerspool "github.com/aanufriev/SoftProTest/workersPool"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
@@ -58,7 +58,7 @@ func main() {
 	linesProviderURL := config.LinesProvider.URL
 
 	go func() {
-		pool := workersPool.NewWorkersPool(1, sports, intervals, storage)
+		pool := workerspool.NewWorkersPool(1, sports, intervals, storage)
 		pool.Start(linesProviderURL)
 	}()
 

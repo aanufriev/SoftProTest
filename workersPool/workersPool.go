@@ -1,4 +1,4 @@
-package workersPool
+package workerspool
 
 import (
 	"runtime"
