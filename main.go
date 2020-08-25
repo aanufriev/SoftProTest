@@ -70,5 +70,7 @@ func main() {
 
 	go httpserver.StartHTTPServer(config.HTTPPort, storage, sports, linesProviderURL)
 
-	grpcserver.StartSubServer(config.GrpcPort, storage)
+	if httpserver.InfiniteCheckLinesProvider(linesProviderURL, sports, 2) {
+		grpcserver.StartSubServer(config.GrpcPort, storage)
+	}
 }

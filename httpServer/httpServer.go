@@ -4,10 +4,24 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/aanufriev/SoftProTest/storage"
 	"github.com/sirupsen/logrus"
 )
+
+// InfiniteCheckLinesProvider checks availability endlessly
+// to start GRPC server when the resource becomes available
+func InfiniteCheckLinesProvider(url string, sports []string, timeout int) bool {
+	for {
+		err := checklinesProvider(url, sports)
+		if err == nil {
+			return true
+		}
+
+		time.Sleep(time.Duration(timeout) * time.Second)
+	}
+}
 
 func checklinesProvider(url string, sports []string) error {
 	for _, sport := range sports {
