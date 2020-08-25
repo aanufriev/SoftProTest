@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package service;
+option go_package = ".;grpcserver";
+
+message Request {
+    repeated string sports = 1;
+    int32 interval = 2;
+}
+
+message Response {
+    map<string, float> lines = 1;
+}
+
+service SubscribeOnSportsLines {
+    rpc Subscribe(stream Request) returns (stream Response) {}
+}
