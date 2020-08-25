@@ -63,7 +63,7 @@ func TestGRPC(t *testing.T) {
 	sub := NewSubscribeOnSportsLinesClient(grcpConn)
 
 	ctx := context.Background()
-	client, err := sub.Subscribe(ctx)
+	client, err := sub.SubscribeOnSportsLines(ctx)
 	if err != nil {
 		t.Errorf("Test failed. Error: %v", err)
 	}

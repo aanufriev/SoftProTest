@@ -24,7 +24,7 @@ func main() {
 	sub := grpcserver.NewSubscribeOnSportsLinesClient(grcpConn)
 
 	ctx := context.Background()
-	client, err := sub.Subscribe(ctx)
+	client, err := sub.SubscribeOnSportsLines(ctx)
 	if err != nil {
 		return
 	}

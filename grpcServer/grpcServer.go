@@ -43,7 +43,7 @@ func newServer(storage storage.DatabaseInterface) *subscribeServer {
 	}
 }
 
-func (s *subscribeServer) Subscribe(stream SubscribeOnSportsLines_SubscribeServer) error {
+func (s *subscribeServer) SubscribeOnSportsLines(stream SubscribeOnSportsLines_SubscribeOnSportsLinesServer) error {
 	requestChan := make(chan *Request)
 	errChan := make(chan error)
 

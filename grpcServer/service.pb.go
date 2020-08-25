@@ -147,13 +147,14 @@ var file_service_proto_rawDesc = []byte{
 	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x02, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x32, 0x50, 0x0a, 0x16, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x4f, 0x6e,
-	0x53, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x4c, 0x69, 0x6e, 0x65, 0x73, 0x12, 0x36, 0x0a, 0x09, 0x53,
-	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x12, 0x10, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28,
-	0x01, 0x30, 0x01, 0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x3b, 0x67, 0x72, 0x70, 0x63, 0x73, 0x65, 0x72,
-	0x76, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x32, 0x5d, 0x0a, 0x16, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x4f, 0x6e,
+	0x53, 0x70, 0x6f, 0x72, 0x74, 0x73, 0x4c, 0x69, 0x6e, 0x65, 0x73, 0x12, 0x43, 0x0a, 0x16, 0x53,
+	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x4f, 0x6e, 0x53, 0x70, 0x6f, 0x72, 0x74, 0x73,
+	0x4c, 0x69, 0x6e, 0x65, 0x73, 0x12, 0x10, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x28, 0x01, 0x30, 0x01,
+	0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x3b, 0x67, 0x72, 0x70, 0x63, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -176,8 +177,8 @@ var file_service_proto_goTypes = []interface{}{
 }
 var file_service_proto_depIdxs = []int32{
 	2, // 0: service.Response.lines:type_name -> service.Response.LinesEntry
-	0, // 1: service.SubscribeOnSportsLines.Subscribe:input_type -> service.Request
-	1, // 2: service.SubscribeOnSportsLines.Subscribe:output_type -> service.Response
+	0, // 1: service.SubscribeOnSportsLines.SubscribeOnSportsLines:input_type -> service.Request
+	1, // 2: service.SubscribeOnSportsLines.SubscribeOnSportsLines:output_type -> service.Response
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -248,7 +249,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type SubscribeOnSportsLinesClient interface {
-	Subscribe(ctx context.Context, opts ...grpc.CallOption) (SubscribeOnSportsLines_SubscribeClient, error)
+	SubscribeOnSportsLines(ctx context.Context, opts ...grpc.CallOption) (SubscribeOnSportsLines_SubscribeOnSportsLinesClient, error)
 }
 
 type subscribeOnSportsLinesClient struct {
@@ -259,30 +260,30 @@ func NewSubscribeOnSportsLinesClient(cc grpc.ClientConnInterface) SubscribeOnSpo
 	return &subscribeOnSportsLinesClient{cc}
 }
 
-func (c *subscribeOnSportsLinesClient) Subscribe(ctx context.Context, opts ...grpc.CallOption) (SubscribeOnSportsLines_SubscribeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_SubscribeOnSportsLines_serviceDesc.Streams[0], "/service.SubscribeOnSportsLines/Subscribe", opts...)
+func (c *subscribeOnSportsLinesClient) SubscribeOnSportsLines(ctx context.Context, opts ...grpc.CallOption) (SubscribeOnSportsLines_SubscribeOnSportsLinesClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_SubscribeOnSportsLines_serviceDesc.Streams[0], "/service.SubscribeOnSportsLines/SubscribeOnSportsLines", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &subscribeOnSportsLinesSubscribeClient{stream}
+	x := &subscribeOnSportsLinesSubscribeOnSportsLinesClient{stream}
 	return x, nil
 }
 
-type SubscribeOnSportsLines_SubscribeClient interface {
+type SubscribeOnSportsLines_SubscribeOnSportsLinesClient interface {
 	Send(*Request) error
 	Recv() (*Response, error)
 	grpc.ClientStream
 }
 
-type subscribeOnSportsLinesSubscribeClient struct {
+type subscribeOnSportsLinesSubscribeOnSportsLinesClient struct {
 	grpc.ClientStream
 }
 
-func (x *subscribeOnSportsLinesSubscribeClient) Send(m *Request) error {
+func (x *subscribeOnSportsLinesSubscribeOnSportsLinesClient) Send(m *Request) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *subscribeOnSportsLinesSubscribeClient) Recv() (*Response, error) {
+func (x *subscribeOnSportsLinesSubscribeOnSportsLinesClient) Recv() (*Response, error) {
 	m := new(Response)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -292,40 +293,40 @@ func (x *subscribeOnSportsLinesSubscribeClient) Recv() (*Response, error) {
 
 // SubscribeOnSportsLinesServer is the server API for SubscribeOnSportsLines service.
 type SubscribeOnSportsLinesServer interface {
-	Subscribe(SubscribeOnSportsLines_SubscribeServer) error
+	SubscribeOnSportsLines(SubscribeOnSportsLines_SubscribeOnSportsLinesServer) error
 }
 
 // UnimplementedSubscribeOnSportsLinesServer can be embedded to have forward compatible implementations.
 type UnimplementedSubscribeOnSportsLinesServer struct {
 }
 
-func (*UnimplementedSubscribeOnSportsLinesServer) Subscribe(SubscribeOnSportsLines_SubscribeServer) error {
-	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+func (*UnimplementedSubscribeOnSportsLinesServer) SubscribeOnSportsLines(SubscribeOnSportsLines_SubscribeOnSportsLinesServer) error {
+	return status.Errorf(codes.Unimplemented, "method SubscribeOnSportsLines not implemented")
 }
 
 func RegisterSubscribeOnSportsLinesServer(s *grpc.Server, srv SubscribeOnSportsLinesServer) {
 	s.RegisterService(&_SubscribeOnSportsLines_serviceDesc, srv)
 }
 
-func _SubscribeOnSportsLines_Subscribe_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(SubscribeOnSportsLinesServer).Subscribe(&subscribeOnSportsLinesSubscribeServer{stream})
+func _SubscribeOnSportsLines_SubscribeOnSportsLines_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(SubscribeOnSportsLinesServer).SubscribeOnSportsLines(&subscribeOnSportsLinesSubscribeOnSportsLinesServer{stream})
 }
 
-type SubscribeOnSportsLines_SubscribeServer interface {
+type SubscribeOnSportsLines_SubscribeOnSportsLinesServer interface {
 	Send(*Response) error
 	Recv() (*Request, error)
 	grpc.ServerStream
 }
 
-type subscribeOnSportsLinesSubscribeServer struct {
+type subscribeOnSportsLinesSubscribeOnSportsLinesServer struct {
 	grpc.ServerStream
 }
 
-func (x *subscribeOnSportsLinesSubscribeServer) Send(m *Response) error {
+func (x *subscribeOnSportsLinesSubscribeOnSportsLinesServer) Send(m *Response) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *subscribeOnSportsLinesSubscribeServer) Recv() (*Request, error) {
+func (x *subscribeOnSportsLinesSubscribeOnSportsLinesServer) Recv() (*Request, error) {
 	m := new(Request)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -339,8 +340,8 @@ var _SubscribeOnSportsLines_serviceDesc = grpc.ServiceDesc{
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Subscribe",
-			Handler:       _SubscribeOnSportsLines_Subscribe_Handler,
+			StreamName:    "SubscribeOnSportsLines",
+			Handler:       _SubscribeOnSportsLines_SubscribeOnSportsLines_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},

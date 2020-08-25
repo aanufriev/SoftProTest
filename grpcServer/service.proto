@@ -13,5 +13,5 @@ message Response {
 }
 
 service SubscribeOnSportsLines {
-    rpc Subscribe(stream Request) returns (stream Response) {}
+    rpc SubscribeOnSportsLines(stream Request) returns (stream Response) {}
 }
