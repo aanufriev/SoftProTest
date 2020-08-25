@@ -8,6 +8,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// WorkersPool is a struct to manage workers.
+// Specifies for which sports the lines
+// should be received, at what intervals
 type WorkersPool struct {
 	workersCount int
 	Sports       []string
@@ -16,6 +19,7 @@ type WorkersPool struct {
 	storage      storage.DatabaseInterface
 }
 
+// NewWorkersPool returns WorkersPool
 func NewWorkersPool(workersCount int, sports []string, intervals []int, storage storage.DatabaseInterface) WorkersPool {
 	return WorkersPool{
 		workersCount: workersCount,
@@ -26,6 +30,8 @@ func NewWorkersPool(workersCount int, sports []string, intervals []int, storage 
 	}
 }
 
+// Start creates n workers
+// Workers get lines in different goroutines
 func (pool WorkersPool) Start(linesProviderURL string) {
 	pool.AddWork()
 	for i := 0; i < pool.workersCount; i++ {
@@ -49,6 +55,8 @@ func (pool WorkersPool) Start(linesProviderURL string) {
 	}).Info("Workers started")
 }
 
+// AddWork sends sport to workChan
+// at a certain interval
 func (pool WorkersPool) AddWork() {
 	for i, sport := range pool.Sports {
 		interval := pool.Intervals[i]

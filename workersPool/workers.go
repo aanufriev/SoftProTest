@@ -11,11 +11,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Worker is a struct to get lines from
+// lines provider and save them in database
 type Worker struct {
 	url     string
 	storage storage.DatabaseInterface
 }
 
+// GetLine makes a request, receives
+// a line and saves to database
 func (w Worker) GetLine(sport string) {
 	resp, err := http.Get(w.url + sport)
 	if err != nil {
