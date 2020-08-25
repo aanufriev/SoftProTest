@@ -25,13 +25,19 @@ func main() {
 
 	ctx := context.Background()
 	client, err := sub.Subscribe(ctx)
+	if err != nil {
+		return
+	}
 
 	sports := []string{"baseball", "football", "soccer"}
 
-	client.Send(&grpcserver.Request{
+	err = client.Send(&grpcserver.Request{
 		Sports:   sports,
 		Interval: 3,
 	})
+	if err != nil {
+		return
+	}
 
 	for i := 0; i < 2; i++ {
 		out, err := client.Recv()
@@ -45,10 +51,13 @@ func main() {
 		fmt.Println(out.Lines)
 	}
 
-	client.Send(&grpcserver.Request{
+	err = client.Send(&grpcserver.Request{
 		Sports:   sports,
 		Interval: 2,
 	})
+	if err != nil {
+		return
+	}
 
 	for i := 0; i < 2; i++ {
 		out, err := client.Recv()
@@ -64,10 +73,13 @@ func main() {
 
 	newSports := []string{"baseball", "soccer"}
 
-	client.Send(&grpcserver.Request{
+	err = client.Send(&grpcserver.Request{
 		Sports:   newSports,
 		Interval: 1,
 	})
+	if err != nil {
+		return
+	}
 
 	for {
 		out, err := client.Recv()

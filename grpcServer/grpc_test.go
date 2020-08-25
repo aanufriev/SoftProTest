@@ -3,7 +3,6 @@ package grpcserver
 import (
 	context "context"
 	"io"
-	"log"
 	"net"
 	"reflect"
 	"testing"
@@ -39,14 +38,17 @@ func TestGRPC(t *testing.T) {
 		fs := fakeStorage{}
 		lis, err := net.Listen("tcp", ":10000")
 		if err != nil {
-			log.Fatalln("cant listet port", err)
+			t.Errorf("Test failed. Error: %v", err)
 		}
 
 		server := grpc.NewServer()
 
 		RegisterSubscribeOnSportsLinesServer(server, newServer(fs))
 
-		server.Serve(lis)
+		err = server.Serve(lis)
+		if err != nil {
+			t.Errorf("Test failed. Error: %v", err)
+		}
 	}()
 
 	grcpConn, err := grpc.Dial(
@@ -54,7 +56,7 @@ func TestGRPC(t *testing.T) {
 		grpc.WithInsecure(),
 	)
 	if err != nil {
-		log.Fatalf("cant connect to grpc")
+		t.Errorf("Test failed. Error: %v", err)
 	}
 	defer grcpConn.Close()
 
@@ -62,14 +64,19 @@ func TestGRPC(t *testing.T) {
 
 	ctx := context.Background()
 	client, err := sub.Subscribe(ctx)
-	defer client.CloseSend()
+	if err != nil {
+		t.Errorf("Test failed. Error: %v", err)
+	}
 
 	sports := []string{"baseball", "football", "soccer"}
 
-	client.Send(&Request{
+	err = client.Send(&Request{
 		Sports:   sports,
 		Interval: 1,
 	})
+	if err != nil {
+		t.Errorf("Test failed. Error: %v", err)
+	}
 
 	expected := map[string]float32{"baseball": 1.5, "football": 4.2, "soccer": 0.1}
 	out, err := client.Recv()

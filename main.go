@@ -37,7 +37,10 @@ func main() {
 	if err != nil {
 		logrus.Fatal("can't read config: ", err)
 	}
-	config.UnmarshalJSON(configData)
+	err = config.UnmarshalJSON(configData)
+	if err != nil {
+		logrus.Fatal("can't unmarshall config: ", err)
+	}
 
 	setLogrusLevel(config.LogLevel)
 
@@ -52,7 +55,10 @@ func main() {
 	}
 
 	sports := config.LinesProvider.Sports
-	storage.InitDatabase(sports)
+	err = storage.InitDatabase(sports)
+	if err != nil {
+		logrus.Fatal("can't init database: ", err)
+	}
 
 	intervals := config.LinesProvider.Intervals
 	linesProviderURL := config.LinesProvider.URL

@@ -27,7 +27,10 @@ func StartSubServer(port string, storage storage.DatabaseInterface) {
 	logrus.WithFields(logrus.Fields{
 		"port": port,
 	}).Info("Starting grpc server")
-	server.Serve(lis)
+	err = server.Serve(lis)
+	if err != nil {
+		logrus.WithError(err).Info("grps server error")
+	}
 }
 
 type subscribeServer struct {
@@ -89,9 +92,12 @@ func (s *subscribeServer) Subscribe(stream SubscribeOnSportsLines_SubscribeServe
 					lines[sport] = line - lines[sport]
 				}
 
-				stream.Send(&Response{
+				err := stream.Send(&Response{
 					Lines: lines,
 				})
+				if err != nil {
+					logrus.WithError(err).Info("can't send response")
+				}
 
 				logrus.WithFields(logrus.Fields{
 					"lines": lines,

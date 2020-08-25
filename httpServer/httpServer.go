@@ -40,13 +40,19 @@ type handler struct {
 func (h handler) writeSuccess(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusOK)
 	resp := map[string]string{"data": "service is available"}
-	json.NewEncoder(w).Encode(resp)
+	err := json.NewEncoder(w).Encode(resp)
+	if err != nil {
+		logrus.WithError(err).Info("writeSuccess")
+	}
 }
 
 func (h handler) writeError(w http.ResponseWriter, err error) {
 	w.WriteHeader(http.StatusInternalServerError)
 	resp := map[string]string{"error": err.Error()}
-	json.NewEncoder(w).Encode(resp)
+	funcErr := json.NewEncoder(w).Encode(resp)
+	if funcErr != nil {
+		logrus.WithError(funcErr).Info("writeError")
+	}
 }
 
 func (h handler) checkReady(w http.ResponseWriter, r *http.Request) {
@@ -81,5 +87,8 @@ func StartHTTPServer(port string, storage storage.DatabaseInterface, sports []st
 		"port": port,
 	}).Info("Starting http server")
 
-	http.ListenAndServe(port, mux)
+	err := http.ListenAndServe(port, mux)
+	if err != nil {
+		logrus.WithError(err).Info("HTTP server error")
+	}
 }
