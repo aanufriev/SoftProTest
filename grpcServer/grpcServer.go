@@ -12,6 +12,8 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
+// StartSubServer creates a grps server to handle
+// the clients subscription to the sports line
 func StartSubServer(port string, storage storage.DatabaseInterface) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -20,7 +22,7 @@ func StartSubServer(port string, storage storage.DatabaseInterface) {
 
 	server := grpc.NewServer()
 
-	RegisterSubscribeOnSportsLinesServer(server, NewServer(storage))
+	RegisterSubscribeOnSportsLinesServer(server, newServer(storage))
 
 	logrus.WithFields(logrus.Fields{
 		"port": port,
@@ -32,7 +34,7 @@ type subscribeServer struct {
 	storage storage.DatabaseInterface
 }
 
-func NewServer(storage storage.DatabaseInterface) *subscribeServer {
+func newServer(storage storage.DatabaseInterface) *subscribeServer {
 	return &subscribeServer{
 		storage: storage,
 	}
