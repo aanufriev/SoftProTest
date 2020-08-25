@@ -8,5 +8,5 @@ stop:
 lint:
 	golint ./...
 
-test:
+tests:
 	go test -v ./...
