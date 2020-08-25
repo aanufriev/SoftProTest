@@ -52,7 +52,7 @@ func TestGRPC(t *testing.T) {
 	}()
 
 	grcpConn, err := grpc.Dial(
-		"127.0.0.1:10000",
+		"localhost:10000",
 		grpc.WithInsecure(),
 	)
 	if err != nil {
