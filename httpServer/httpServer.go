@@ -65,6 +65,8 @@ func (h handler) checkReady(w http.ResponseWriter, r *http.Request) {
 	h.writeSuccess(w)
 }
 
+// StartHTTPServer creates a http server
+// to handle request on /ready
 func StartHTTPServer(port string, storage storage.DatabaseInterface, sports []string, linesProviderURL string) {
 	handler := &handler{
 		storage:          storage,
