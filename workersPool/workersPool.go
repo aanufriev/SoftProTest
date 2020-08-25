@@ -13,10 +13,10 @@ type WorkersPool struct {
 	Sports       []string
 	Intervals    []int
 	workChan     chan string
-	storage      storage.StorageInterface
+	storage      storage.DatabaseInterface
 }
 
-func NewWorkersPool(workersCount int, sports []string, intervals []int, storage storage.StorageInterface) WorkersPool {
+func NewWorkersPool(workersCount int, sports []string, intervals []int, storage storage.DatabaseInterface) WorkersPool {
 	return WorkersPool{
 		workersCount: workersCount,
 		Sports:       sports,

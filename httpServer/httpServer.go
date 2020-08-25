@@ -21,7 +21,7 @@ func checklinesProvider(url string, sports []string) error {
 	return nil
 }
 
-func checkStorage(storage storage.StorageInterface) error {
+func checkStorage(storage storage.DatabaseInterface) error {
 	err := storage.Ping()
 	if err != nil {
 		logrus.WithError(err).Info("storage")
@@ -32,7 +32,7 @@ func checkStorage(storage storage.StorageInterface) error {
 }
 
 type handler struct {
-	storage          storage.StorageInterface
+	storage          storage.DatabaseInterface
 	linesProviderURL string
 	sports           []string
 }
@@ -65,7 +65,7 @@ func (h handler) checkReady(w http.ResponseWriter, r *http.Request) {
 	h.writeSuccess(w)
 }
 
-func StartHTTPServer(port string, storage storage.StorageInterface, sports []string, linesProviderURL string) {
+func StartHTTPServer(port string, storage storage.DatabaseInterface, sports []string, linesProviderURL string) {
 	handler := &handler{
 		storage:          storage,
 		linesProviderURL: linesProviderURL,

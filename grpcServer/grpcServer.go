@@ -12,7 +12,7 @@ import (
 	grpc "google.golang.org/grpc"
 )
 
-func StartSubServer(port string, storage storage.StorageInterface) {
+func StartSubServer(port string, storage storage.DatabaseInterface) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalln("cant listet port", err)
@@ -29,10 +29,10 @@ func StartSubServer(port string, storage storage.StorageInterface) {
 }
 
 type subscribeServer struct {
-	storage storage.StorageInterface
+	storage storage.DatabaseInterface
 }
 
-func NewServer(storage storage.StorageInterface) *subscribeServer {
+func NewServer(storage storage.DatabaseInterface) *subscribeServer {
 	return &subscribeServer{
 		storage: storage,
 	}

@@ -12,16 +12,21 @@ const (
 	postgres = "postgres"
 )
 
-type StorageInterface interface {
+// DatabaseInterface is an interface work with
+// different databases and to make fake databases for testing
+type DatabaseInterface interface {
 	Ping() error
 	Save(sport string, value string) error
 	GetLastLine(sport string) (float32, error)
 }
 
+// PostgresStorage is implementation of DatabaseInterface
 type PostgresStorage struct {
 	db *sql.DB
 }
 
+// Open opens database by postgres driver
+// and driver-specified data source name
 func (ps *PostgresStorage) Open(dataSourceName string) error {
 	db, err := sql.Open(postgres, dataSourceName)
 	if err != nil {
@@ -42,6 +47,7 @@ func (ps *PostgresStorage) Open(dataSourceName string) error {
 	return nil
 }
 
+// InitDatabase creates tables if they don't exist
 func (ps PostgresStorage) InitDatabase(sports []string) error {
 	for _, sport := range sports {
 		_, err := ps.db.Exec(
@@ -64,11 +70,13 @@ func (ps PostgresStorage) InitDatabase(sports []string) error {
 	return nil
 }
 
+// Ping checks connection is alive
 func (ps PostgresStorage) Ping() error {
 	err := ps.db.Ping()
 	return err
 }
 
+// Save saves a line for sport
 func (ps PostgresStorage) Save(sport string, line string) error {
 	_, err := ps.db.Exec(
 		"INSERT INTO "+sport+" (line, get_at_time) VALUES ($1, $2)",
@@ -82,6 +90,7 @@ func (ps PostgresStorage) Save(sport string, line string) error {
 	return err
 }
 
+// GetLastLine return last line for sport
 func (ps PostgresStorage) GetLastLine(sport string) (float32, error) {
 	var line float32
 

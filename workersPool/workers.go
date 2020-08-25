@@ -13,7 +13,7 @@ import (
 
 type Worker struct {
 	url     string
-	storage storage.StorageInterface
+	storage storage.DatabaseInterface
 }
 
 func (w Worker) GetLine(sport string) {
