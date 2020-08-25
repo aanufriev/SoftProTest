@@ -13,7 +13,7 @@ import (
 func main() {
 
 	grcpConn, err := grpc.Dial(
-		"127.0.0.1:9001",
+		"localhost:9001",
 		grpc.WithInsecure(),
 	)
 	if err != nil {
